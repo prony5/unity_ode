@@ -25,6 +25,8 @@ Add to your `Packages/manifest.json`:
    - Add `Ode/World` component
    - Add Bodies and joints form section  `Ode` in inspector
 
+2. By default, the simulation is performed using single precision numbers, to use double you need to add `ODE_DOUBLE_PRECISION` in scripting define symbols in project settings.
+
 ## Requirements
 
 | Component      | Requirement                         |
