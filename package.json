@@ -1,0 +1,29 @@
+{
+  "name": "com.prony5.unity.ode",
+  "version": "0.1.0",
+  "displayName": "Open Dynamics Engine",
+  "description": "Open Dynamics Engine for Unity",
+  "unity": "2019.4",
+  "keywords": [
+    "unity",
+    "physics",
+    "ode"
+  ],
+  "author": {
+    "name": "Prony5",
+    "email": "prony5@yandex.ru",
+    "url": "https://github.com/prony5/unity_ode"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prony5/unity_ode.git"
+  },
+  "publishConfig": {},
+  "type": "library",
+  "hideInEditor": false,
+  "platforms": {
+    "win64": "ODE Windows x64 support",
+    "linux64": "ODE Linux support"
+  }
+}
