@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Diagnostics;
+
 using UnityEngine;
+
 using Ode.Net;
 using Ode.Net.Joints;
 using Ode.Net.Collision;
-using System.Threading;
-using System.Diagnostics;
 
 namespace UnityODE
 {
@@ -53,7 +55,7 @@ namespace UnityODE
         }
 
         #region Inspector
-        [System.Serializable]
+        [Serializable]
         public class WorldSettings
         {
             [Tooltip("Manual simulation step. For next step just call Step().")]

@@ -1,0 +1,20 @@
+{
+    "name": "com.prony5.unity.ode.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3d061c34714855aba8752c61f0df7784"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        ""
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
