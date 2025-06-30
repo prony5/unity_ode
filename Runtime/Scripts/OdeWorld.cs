@@ -81,6 +81,8 @@ namespace UnityODE
             [Range(0, 100)]
             public int maxContacts = 10;
             public float maxAngularSpeed = 5000;
+            public float LinearDamping = 0;
+            public float AngularDamping = 0;
             public float contactMaxCorrectingVelocity = 1;
         }
 
@@ -264,10 +266,12 @@ namespace UnityODE
                     // _world.StepIslandsProcessingMaxThreadCount = 20;
                     /*
                           // _world.AutoDisableAverageSamplesCount = 10;
+ 
                     */
-                    _world.LinearDamping = 0.001f;
-                     _world.AngularDamping = 0.05f;
-                    
+
+                    _world.LinearDamping = _settings.LinearDamping;
+                    _world.AngularDamping = _settings.AngularDamping;
+
                     _world.MaxAngularSpeed = _settings.maxAngularSpeed * Mathf.Deg2Rad;
                     _world.ContactMaxCorrectingVelocity = _settings.contactMaxCorrectingVelocity;
                     _world.ContactSurfaceLayer = 0.001f;
