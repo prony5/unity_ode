@@ -1,7 +1,9 @@
 {
     "name": "com.prony5.unity.ode.Runtime",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:611d9bcab231ca6bba9de4890bd8f63b"
+    ],
     "includePlatforms": [
         "Editor",
         "LinuxStandalone64",

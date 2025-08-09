@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using P7;
 
 namespace UnityODE
 {
@@ -18,8 +19,7 @@ namespace UnityODE
             public float frequency = 0.25f;
             public float offset = 0;
             public Signal signal;
-            // [SerializeField]
-            // private DGraph _graph;
+            public Telemetry telemetry;
             #endregion
 
             private float _t = 0;
@@ -54,24 +54,35 @@ namespace UnityODE
                 return retValue + offset;
             }
 
-            public void DrawGraph(float time, float acc, float vel, float velTarget, float pos, float posDesire, float posTarget, float current, float currentTarget, float torque)
+            public void UpdateTelemetry(
+                float time,
+                float accAxis,
+                float velMotor,
+                float velAxis,
+                float velTarget,
+                float pos,
+                float posDesire,
+                float posTarget,
+                float current,
+                float currentTarget,
+                float torque
+            )
             {
-            //     if (_graph == null || _graph.Inited == false)
-            //         return;
+                if (telemetry == null || telemetry.Count < 12)
+                    return;
 
-            //     _graph.graphs[0].AddPointXY(time, acc);
-            //     _graph.graphs[1].AddPointXY(time, vel);
-            //     _graph.graphs[2].AddPointXY(time, velTarget);
-            //     _graph.graphs[3].AddPointXY(time, vel - velTarget);
-
-            //     _graph.graphs[4].AddPointXY(time, pos);
-            //     _graph.graphs[5].AddPointXY(time, posDesire);
-            //     _graph.graphs[6].AddPointXY(time, posTarget);
-
-            //     _graph.graphs[7].AddPointXY(time, current);
-            //     _graph.graphs[8].AddPointXY(time, currentTarget);
-
-            //     _graph.graphs[9].AddPointXY(time, torque);
+                telemetry[0].Add(accAxis);
+                telemetry[1].Add(velMotor);
+                telemetry[2].Add(velAxis);
+                telemetry[3].Add(velTarget);
+                telemetry[4].Add(velAxis - velTarget);
+                telemetry[5].Add(pos);
+                telemetry[6].Add(posDesire);
+                telemetry[7].Add(posTarget);
+                telemetry[8].Add(pos - posTarget);
+                telemetry[9].Add(current);
+                telemetry[10].Add(currentTarget);
+                telemetry[11].Add(torque);
             }
         }
 
@@ -148,10 +159,10 @@ namespace UnityODE
             public float limitVel = 360f;
             [Tooltip("Ограничение по ускорению [градус/сек^2].")]
             public float limitAcc = 100F;
-            [Tooltip("Максимальная граница по величине [единицы].")]
-            public float MaxPos = 9999999999999999f;
             [Tooltip("Минимальная граница по величине [единицы].")]
             public float MinPos = -9999999999999999f;
+            [Tooltip("Максимальная граница по величине [единицы].")]
+            public float MaxPos = 9999999999999999f;
 
             private float _posReal;
             private float _velReal;
@@ -331,7 +342,18 @@ namespace UnityODE
             }
 
             _targetPosition = targetPosition;
-            verification.DrawGraph(OdeWorld.Statistics.time, motor.AxisAcceleration, motor.AxisVelocity, targetVelocity, motor.AxisPosition, type == Type.position ? _desire : 0, TargetPosition, motor.Current, targetCurrent, motor.AxisTorque);
+            verification.UpdateTelemetry(
+                OdeWorld.Statistics.time,
+                motor.AxisAcceleration,
+                motor.MotorVelocity,
+                motor.AxisVelocity,
+                targetVelocity,
+                motor.AxisPosition,
+                type == Type.position ? _desire : 0, TargetPosition,
+                motor.Current,
+                targetCurrent,
+                motor.AxisTorque
+                );
 
             return targetCurrent;
         }
