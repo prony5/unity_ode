@@ -129,6 +129,8 @@ namespace UnityODE
                 OdeWorld.OnBeforeStep += BeforeSimStep;
                 OdeWorld.OnAfterStep += AfterSimStep;
             }
+
+            _joint = GetComponent<OdeJointHinge>();
         }
 
         void OnDisable()
@@ -140,11 +142,7 @@ namespace UnityODE
             }
         }
 
-        private void Start()
-        {
-            _joint = GetComponent<OdeJointHinge>();
-        }
-
+  
         protected void BeforeSimStep()
         {
             if (noLoadSpeed <= 0 || gear <= 0)

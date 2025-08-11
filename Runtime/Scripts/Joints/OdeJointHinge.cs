@@ -26,6 +26,11 @@ namespace UnityODE
         public float Velocity { get { return _velocity; } }
 
         /// <summary>
+        /// Ускорение между текущим и прикрепленным телом [градус/сек] или [метр/сек], в зависимости от типа сочленения
+        /// </summary>
+        public float Acceleration { get { return _acceleration; } }
+
+        /// <summary>
         /// Прикладывает крутящий момент к оси вращения, на один шаг симуляции [Ньютон*метр].
         /// </summary>
         public void AddTorque(float value)

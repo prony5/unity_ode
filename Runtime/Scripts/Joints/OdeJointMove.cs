@@ -14,6 +14,8 @@ namespace UnityODE
         protected float _value;
         [SerializeField, OdeReadOnly]
         protected float _velocity;
+        protected float _acceleration;
+
         [SerializeField]
         protected Limits _limits = new Limits();
         #endregion
@@ -65,7 +67,9 @@ namespace UnityODE
             if (Body.Inited && (HasConnectedBody == false || connectedBody.Inited))
             {
                 _value = GetValue();
-                _velocity = GetVelocity();
+                var vel = GetVelocity(); 
+                _acceleration = (vel - _velocity) / OdeWorld.Settings.stepTime;
+                _velocity = vel;
             }
         }
 

@@ -108,28 +108,33 @@ namespace UnityODE
             [Tooltip("Если значение ошибки будет больше этой величины, то значение Gain будет минимальным.")]
             public float err;
         }
-        [System.Serializable]
-        public class LimitPos
-        {
-            [Tooltip("Граница минимальная")]
-            public float min = -99999999999f;
-            [Tooltip("Граница максимальная")]
-            public float max = 99999999999f;
-            [Tooltip("Коэффициент пропорциональный контура положения")]
-            public float Kpos;
-            [Tooltip("Коэффициент пропорциональный контура скорости")]
-            public float Kvel;
-            [OdeReadOnly]
-            public float targetCurrentLim;
-        }
+
+
+
         [Tooltip("Коэф. контура регулирования положения.")]
         public Gain gain;
-        public LimitControl limits = new LimitControl();
-        public LimitPos limPos = new LimitPos();
+
+        [SerializeField]
+        private LimitControl limits = new LimitControl();
+
+        /*
+     [System.Serializable]
+     public class LimitPos
+     {
+         public float Kpos;
+         [Tooltip("Коэффициент пропорциональный контура скорости")]
+         public float Kvel;
+         [OdeReadOnly]
+         public float targetCurrentLim;
+     }
+     */
+        //   public LimitPos limPos = new LimitPos();
 
         [Space(10)]
         public Verification verification = new Verification();
         #endregion
+
+        public LimitControl Limits { get { return limits; }}
 
         /// <summary>
         /// Задание для контура регулирования
@@ -172,7 +177,7 @@ namespace UnityODE
             private bool _done;
             private bool _done2;
 
-            public float Solve(float dt, float desire)
+            internal float Solve(float dt, float desire)
             {
                 desire = (desire > MaxPos) ? MaxPos : desire;
                 desire = (desire < MinPos) ? MinPos : desire;
@@ -321,25 +326,29 @@ namespace UnityODE
 
             }
 
-            if (motor.AxisPosition > limPos.max || motor.AxisPosition < limPos.min)
-            {
-                var targetLim = (motor.AxisPosition > limPos.max) ? limPos.max : limPos.min;
+            /*
+                        // Механизм выталкивания из области программного ограничения по положению
 
-                //Пересчитываем задание по углу в задание по скорости                        
-                targetVelocity = (targetLim - motor.AxisPosition) * limPos.Kpos;
+                        if (motor.AxisPosition > limits.MaxPos || motor.AxisPosition < limits.MinPos)
+                        {
+                            var targetLim = (motor.AxisPosition > limits.MaxPos) ? limits.MaxPos : limits.MinPos;
 
-                var ELim = (targetVelocity - motor.AxisVelocity);
-                limPos.targetCurrentLim = ELim * limPos.Kvel;
+                            //Пересчитываем задание по углу в задание по скорости                        
+                            targetVelocity = (targetLim - motor.AxisPosition) * limPos.Kpos;
 
-                IsReached = true;
+                            var ELim = (targetVelocity - motor.AxisVelocity);
+                            limPos.targetCurrentLim = ELim * limPos.Kvel;
 
-                if ((targetCurrent > limPos.targetCurrentLim && motor.AxisPosition > limPos.max)
-                    ||
-                    (targetCurrent < limPos.targetCurrentLim && motor.AxisPosition < limPos.min))
-                {
-                    targetCurrent = limPos.targetCurrentLim;
-                }
-            }
+                            IsReached = true;
+
+                            if ((targetCurrent > limPos.targetCurrentLim && motor.AxisPosition > limits.MaxPos)
+                                ||
+                                (targetCurrent < limPos.targetCurrentLim && motor.AxisPosition < limits.MinPos))
+                            {
+                                targetCurrent = limPos.targetCurrentLim;
+                            }
+                        }
+                        */
 
             _targetPosition = targetPosition;
             verification.UpdateTelemetry(

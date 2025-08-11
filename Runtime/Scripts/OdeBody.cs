@@ -75,7 +75,7 @@ namespace UnityODE
         /// </summary>
         public Vector3 VelocityLinear { get { return _velocityLinear; } }
 
-        public Vector3 Acceleration { get; private set; }
+        public Vector3 AccelerationLinear { get; private set; }
 
         private Ode.Net.Body _body;
         private List<Ode.Net.Collision.Geom> _geoms = new List<Ode.Net.Collision.Geom>();
@@ -257,7 +257,7 @@ namespace UnityODE
 
             _velocityAngular = _body.AngularVelocity.ToUnity();
             _velocityLinear = _body.LinearVelocity.ToUnity();
-            Acceleration = (_body.LinearVelocity - _lastVelocityLinear).ToUnity() / OdeWorld.Settings.stepTime;
+            AccelerationLinear = (_body.LinearVelocity - _lastVelocityLinear).ToUnity() / OdeWorld.Settings.stepTime;
         }
 
         void Update()
