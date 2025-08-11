@@ -1,6 +1,6 @@
 {
   "name": "com.prony5.unity.ode",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "displayName": "Open Dynamics Engine",
   "description": "Open Dynamics Engine for Unity",
   "unity": "2019.4",
